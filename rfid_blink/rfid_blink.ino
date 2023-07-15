@@ -19,8 +19,10 @@
 
 MFRC522 mfrc522(10, 9);  // instantiate MFRC522 object
 
-byte uidCard1[4] = {99, 67, 240, 20};  // known UID of first card
-byte uidCard2[4] = {211, 55, 138, 22};  // known UID of second card
+byte uidCard1[4] = {};  // known UID of first card
+byte uidCard2[4] = {};  // known UID of second card
+bool isCard1Set = false;  // has uid for first card been set
+bool isCard2Set = false;  // has uid for second card been set
 int ledPin1 = 4;  // pin of first LED
 int ledPin2 = 2;  // pin of second LED
 
@@ -60,6 +62,9 @@ void loop() {
   if ( ! mfrc522.PICC_ReadCardSerial())
     return;
 
+  // set uid for first and second card if not set
+  uidInitializer(mfrc522.uid);
+
   // check if the card's UID is same as card1's
   if (mfrc522.uid.uidByte[0] == uidCard1[0] &&
       mfrc522.uid.uidByte[1] == uidCard1[1] &&
@@ -93,4 +98,24 @@ void loop() {
   // if card is not known
   else
     Serial.println("\nCard is not recognized!");
+}
+
+
+// function for setting the initial uid for card 1 and card 2
+void uidInitializer(MFRC522::Uid uid){
+  if ( ! isCard1Set){
+      uidCard1[0] = uid.uidByte[0];
+      uidCard1[1] = uid.uidByte[1];
+      uidCard1[2] = uid.uidByte[2];
+      uidCard1[3] = uid.uidByte[3];
+      isCard1Set = true;
+  }
+  else if (! isCard2Set){
+      uidCard2[0] = uid.uidByte[0];
+      uidCard2[1] = uid.uidByte[1];
+      uidCard2[2] = uid.uidByte[2];
+      uidCard2[3] = uid.uidByte[3];
+      isCard2Set = true;
+  }
+
 }
