@@ -111,11 +111,17 @@ void uidInitializer(MFRC522::Uid uid){
       isCard1Set = true;
   }
   else if (! isCard2Set){
-      uidCard2[0] = uid.uidByte[0];
-      uidCard2[1] = uid.uidByte[1];
-      uidCard2[2] = uid.uidByte[2];
-      uidCard2[3] = uid.uidByte[3];
-      isCard2Set = true;
+    if ( ! (uid.uidByte[0] == uidCard1[0] && 
+            uid.uidByte[1] == uidCard1[1] &&
+            uid.uidByte[2] == uidCard1[2] &&
+            uid.uidByte[3] == uidCard1[3]) )
+         {
+          uidCard2[0] = uid.uidByte[0];
+          uidCard2[1] = uid.uidByte[1];
+          uidCard2[2] = uid.uidByte[2];
+          uidCard2[3] = uid.uidByte[3];
+          isCard2Set = true;
+    }
   }
 
 }
