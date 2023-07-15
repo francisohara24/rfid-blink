@@ -1,2 +1,4 @@
 # libs
-Copy the contents of this directory into the `libraries` directory of your Arduino sketch directory.
+### Installation Instructions
+1. Rename directory from `rfid` --> `MFRC522`.
+2. Copy `MFRC522` directory to `libraries` directory of your Arduino sketch directory.
